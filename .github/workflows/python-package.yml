@@ -30,10 +30,14 @@ jobs:
       - name: Lint with ruff
         run: |
           ruff check
-  deploy:
+  pypi-publish:
+    name: Upload release to PyPI
     runs-on: ubuntu-latest
-    needs: build
+    environment:
+      name: pypi
+      url: https://pypi.org/p/auto-ninja
+    permissions:
+      id-token: write
     steps:
-      - name: pypi-publish
-        uses: pypa/gh-action-pypi-publish@v1.12.2
-              
+      - name: Publish package distributions to PyPI
+        uses: pypa/gh-action-pypi-publish@release/v1
