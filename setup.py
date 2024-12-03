@@ -16,8 +16,6 @@ setup(
     author="Sascha Krug",
     author_email="sascha@fa-krug.de",
     description="Auto Ninja is a Python library for Django developers that automates the generation of API structures, reducing setup time and enhancing productivity.",
-    long_description=open("README.md").read(),
-    long_description_content_type="text/markdown",
     url="https://github.com/fa-krug/auto-ninja",
     classifiers=[
         "Development Status :: 5 - Production/Stable",
