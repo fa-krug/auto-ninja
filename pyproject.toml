@@ -1,0 +1,67 @@
+[build-system]
+requires = ["flit_core >=2,<4"]
+build-backend = "flit_core.buildapi"
+
+[tool.flit.metadata]
+module = "auto_ninja"
+dist-name = "auto-ninja"
+author = "Sascha Krug"
+author-email = "sascha@fa-krug.de"
+home-page = "https://github.com/fa-krug/auto-ninja"
+classifiers = [
+    "Intended Audience :: Information Technology",
+    "Intended Audience :: System Administrators",
+    "Operating System :: OS Independent",
+    "Development Status :: 5 - Production/Stable",
+    "Topic :: Internet",
+    "Topic :: Software Development :: Libraries :: Application Frameworks",
+    "Topic :: Software Development :: Libraries :: Python Modules",
+    "Topic :: Software Development :: Libraries",
+    "Topic :: Software Development",
+    "Typing :: Typed",
+    "Environment :: Web Environment",
+    "Intended Audience :: Developers",
+    "License :: OSI Approved :: MIT License",
+    "Programming Language :: Python :: 3",
+    "Programming Language :: Python :: 3.7",
+    "Programming Language :: Python :: 3.8",
+    "Programming Language :: Python :: 3.9",
+    "Programming Language :: Python :: 3.10",
+    "Programming Language :: Python :: 3.11",
+    "Programming Language :: Python :: 3.12",
+    "Programming Language :: Python :: 3 :: Only",
+    "Framework :: Django",
+    "Framework :: Django :: 3.1",
+    "Framework :: Django :: 3.2",
+    "Framework :: Django :: 4.1",
+    "Framework :: Django :: 4.2",
+    "Framework :: Django :: 5.0",
+    "Framework :: Django :: 5.1",
+    "Framework :: AsyncIO",
+    "Topic :: Internet :: WWW/HTTP :: HTTP Servers",
+    "Topic :: Internet :: WWW/HTTP",
+]
+
+requires = ["typer==0.14.0"]
+description-file = "README.md"
+requires-python = ">=3.7"
+
+
+[tool.flit.metadata.urls]
+Documentation = "https://github.com/fa-krug/auto-ninja"
+Repository = "https://github.com/fa-krug/auto-ninja"
+
+
+[tool.flit.metadata.requires-extra]
+test = [
+    "django>=4.2.16",
+    "django-ninja==1.3.0",
+    "ruff==0.8.1",
+]
+doc = ["mkdocs", "mkdocs-material", "markdown-include", "mkdocstrings"]
+dev = ["pre-commit"]
+
+
+[tool.ruff]
+target-version = "py37"
+line-length = 120
