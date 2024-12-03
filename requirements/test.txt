@@ -1,2 +1,0 @@
--r production.txt
-ruff==0.8.1
