@@ -39,5 +39,9 @@ jobs:
     permissions:
       id-token: write
     steps:
+      - name: Build package
+        run: |
+          pip install setuptools
+          python setup.py sdist bdist_wheel
       - name: Publish package distributions to PyPI
         uses: pypa/gh-action-pypi-publish@release/v1
