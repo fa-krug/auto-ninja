@@ -1,9 +1,12 @@
 import ast
 import os
 import re
+import sys
 from pathlib import Path
 
 import django
+
+from auto_ninja.services import file
 
 
 def extract_django_settings_module(manage_py_path: Path) -> str:
@@ -23,7 +26,9 @@ def get_settings_module():
 
 
 def setup_django_environment(settings_module: str):
+    file(Path("__init__.py"))
     os.environ.setdefault("DJANGO_SETTINGS_MODULE", settings_module)
+    sys.path.insert(0, os.getcwd())
     django.setup()
 
 
@@ -34,27 +39,19 @@ class ImportInjector(ast.NodeTransformer):
 
     def visit_ImportFrom(self, node):
         # Check if the import already exists
-        if node.module == "demo.api.main" and any(
-            alias.name == "api" for alias in node.names
-        ):
+        if node.module == "demo.api.main" and any(alias.name == "api" for alias in node.names):
             self.import_found = True
         return node
 
     def visit_Assign(self, node):
         # Look for the 'urlpatterns' assignment
-        if any(
-            isinstance(target, ast.Name) and target.id == "urlpatterns"
-            for target in node.targets
-        ):
+        if any(isinstance(target, ast.Name) and target.id == "urlpatterns" for target in node.targets):
             # Check if 'api/' path is already present
             for elt in node.value.elts:
                 if (
                     isinstance(elt, ast.Call)
                     and len(elt.args) > 0
-                    and (
-                        isinstance(elt.args[0], ast.Constant)
-                        and elt.args[0].value == "api/"
-                    )
+                    and (isinstance(elt.args[0], ast.Constant) and elt.args[0].value == "api/")
                 ):
                     self.urlpatterns_found = True
                     break
@@ -92,9 +89,7 @@ def modify_django_urls(urls_path: Path):
             level=0,
         )
         # Insert at the start, after initial module docstring if any
-        if isinstance(tree.body[0], ast.Expr) and isinstance(
-            tree.body[0].value, ast.Constant
-        ):
+        if isinstance(tree.body[0], ast.Expr) and isinstance(tree.body[0].value, ast.Constant):
             tree.body.insert(1, new_import)
         else:
             tree.body.insert(0, new_import)
