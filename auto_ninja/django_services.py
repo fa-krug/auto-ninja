@@ -33,13 +33,14 @@ def setup_django_environment(settings_module: str):
 
 
 class ImportInjector(ast.NodeTransformer):
-    def __init__(self):
+    def __init__(self, urls_path: Path):
+        self.urls_path = urls_path
         self.import_found = False
         self.urlpatterns_found = False
 
     def visit_ImportFrom(self, node):
         # Check if the import already exists
-        if node.module == "demo.api.main" and any(alias.name == "api" for alias in node.names):
+        if node.module == f"{self.urls_path.parent.name}.api.main" and any(alias.name == "api" for alias in node.names):
             self.import_found = True
         return node
 
@@ -78,7 +79,7 @@ class ImportInjector(ast.NodeTransformer):
 def modify_django_urls(urls_path: Path):
     tree = ast.parse(urls_path.read_text())
 
-    injector = ImportInjector()
+    injector = ImportInjector(urls_path)
     injector.visit(tree)
 
     # Add the import statement if it wasn't found
