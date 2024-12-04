@@ -1,6 +1,6 @@
 [tool.poetry]
 name = "auto-ninja"
-version = "1.0.0"
+version = "1.0.1"
 description = "A lightweight library to quickly build CRUD API endpoints for Django Ninja."
 authors = ["Sascha Krug"]
 license = "MIT"
