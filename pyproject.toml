@@ -35,6 +35,9 @@ poethepoet = "^0.24.4"
 django = ">=4.2.16"
 django-ninja = ">=1.3.0"
 
+[tool.poetry.scripts]
+auto-ninja = "auto_ninja.main:main"
+
 [tool.ruff]
 line-length = 120
 
